@@ -19,12 +19,11 @@ export const labs: Lab[] = [
     status: 'stable',
   },
   {
-    id: 'next',
-    title: '다음 실험',
-    tagline: 'src/data/labs.ts에 항목을 추가하고 라우트를 연결하세요',
-    path: '/',
-    status: 'idea',
-    comingSoon: true,
+    id: 'pokopia-stock',
+    title: 'Pokopia Stock',
+    tagline: '박사님 브리핑 · 덱 뽑기 · 종목 도감 (목 데이터)',
+    path: '/lab/pokopia-stock',
+    status: 'wip',
   },
 ]
 
