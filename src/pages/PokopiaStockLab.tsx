@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { critterForDeck, critterForStock } from '../components/pokopia/critterKinds'
+import { CritterParty, CritterSvg } from '../components/pokopia/PocketCritters'
 import {
   ALL_STOCK_IDS,
   MOCK_DECKS,
@@ -122,7 +124,10 @@ export function PokopiaStockLab() {
       </Link>
 
       <header className="mt-5 text-center">
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-violet-600/90">
+        <div aria-hidden className="flex justify-center">
+          <CritterParty />
+        </div>
+        <p className="mt-3 font-mono text-xs font-bold uppercase tracking-[0.2em] text-violet-600/90">
           ★ pokopia stock ★
         </p>
         <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-800 sm:text-3xl">
@@ -132,6 +137,11 @@ export function PokopiaStockLab() {
           투자 권유가 아니라 <span className="text-fuchsia-600">공부용 실험</span>이에요. 목 데이터로
           연출만 먼저 올렸어요 ♪
         </p>
+        <p className="mx-auto mt-2 max-w-lg text-[11px] font-medium leading-snug text-violet-600/80">
+          아래 친구들은 실험실에서 만난{' '}
+          <span className="font-bold text-violet-700">오리지널 꼬마 파트너</span>예요. (공식 포켓몬 캐릭터는
+          아니에요!)
+        </p>
       </header>
 
       {/* 박사님 */}
@@ -139,12 +149,22 @@ export function PokopiaStockLab() {
         className="relative mx-auto mt-8 max-w-3xl overflow-hidden rounded-3xl border-4 border-white bg-gradient-to-r from-yellow-100 via-amber-50 to-orange-100 p-5 shadow-[8px_8px_0_0_rgba(251,191,36,0.35)]"
         aria-labelledby="professor-heading"
       >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-1 top-2 flex gap-0 opacity-90 sm:right-3 sm:top-3"
+        >
+          <CritterSvg kind="leafy" className="h-10 w-10 -rotate-12 drop-shadow sm:h-12 sm:w-12" />
+          <CritterSvg kind="puff" className="h-9 w-9 translate-y-2 rotate-6 drop-shadow sm:h-11 sm:w-11" />
+        </div>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
           <div
-            className="flex size-20 shrink-0 items-center justify-center rounded-2xl border-4 border-amber-300 bg-white text-4xl shadow-md"
+            className="relative flex size-20 shrink-0 items-center justify-center rounded-2xl border-4 border-amber-300 bg-white text-4xl shadow-md"
             aria-hidden
           >
             🧑‍🔬
+            <span className="absolute -bottom-1 -right-1 flex size-9 items-center justify-center rounded-full border-2 border-amber-400 bg-amber-50 shadow-sm">
+              <CritterSvg kind="wink" className="h-7 w-7" />
+            </span>
           </div>
           <div className="min-w-0 flex-1 space-y-3">
             <h2 id="professor-heading" className="text-lg font-extrabold text-amber-900">
@@ -170,8 +190,14 @@ export function PokopiaStockLab() {
         </div>
 
         {spotlight && (
-          <div className="mt-5 rounded-2xl border-4 border-fuchsia-300 bg-gradient-to-br from-fuchsia-50 to-pink-100 p-4">
-            <p className="text-center font-mono text-[10px] font-bold uppercase tracking-widest text-fuchsia-700">
+          <div className="relative mt-5 rounded-2xl border-4 border-fuchsia-300 bg-gradient-to-br from-fuchsia-50 to-pink-100 p-4">
+            <div
+              aria-hidden
+              className="absolute -top-5 left-1/2 flex -translate-x-1/2 sm:left-4 sm:translate-x-0"
+            >
+              <CritterSvg kind={critterForStock(spotlight.id)} className="h-12 w-12 drop-shadow-md sm:h-14 sm:w-14" />
+            </div>
+            <p className="mt-6 text-center font-mono text-[10px] font-bold uppercase tracking-widest text-fuchsia-700 sm:mt-2 sm:text-left sm:pl-2">
               오늘의 스포트라이트 종목
             </p>
             <div className="mt-2 flex flex-col items-center gap-2 sm:flex-row sm:justify-between sm:gap-4">
@@ -205,9 +231,14 @@ export function PokopiaStockLab() {
                     : 'border-white/80 bg-white/70 hover:border-violet-300'
                 }`}
               >
-                <span className="text-2xl" aria-hidden>
-                  {deck.emoji}
-                </span>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-2xl" aria-hidden>
+                    {deck.emoji}
+                  </span>
+                  <span aria-hidden>
+                    <CritterSvg kind={critterForDeck(deck.id)} className="h-12 w-12 drop-shadow" />
+                  </span>
+                </div>
                 <p className="mt-2 font-extrabold text-slate-800">{deck.title}</p>
                 <p className="mt-1 text-xs font-medium text-slate-600">{deck.blurb}</p>
               </button>
@@ -246,12 +277,21 @@ export function PokopiaStockLab() {
                   <button
                     type="button"
                     onClick={() => visible && toggleFlip(stock.id)}
-                    className={`w-full rounded-2xl p-4 text-left transition ${rarityStyle(stock.rarity)} ${
+                    className={`relative w-full rounded-2xl p-4 pt-8 text-left transition ${rarityStyle(stock.rarity)} ${
                       visible ? 'cursor-pointer hover:brightness-[1.02]' : 'pointer-events-none'
                     }`}
                     aria-pressed={isBack}
                     disabled={!visible}
                   >
+                    <span
+                      aria-hidden
+                      className="absolute -right-1 -top-2 sm:right-1 sm:top-0"
+                    >
+                      <CritterSvg
+                        kind={critterForStock(stock.id)}
+                        className="h-14 w-14 drop-shadow-md sm:h-16 sm:w-16"
+                      />
+                    </span>
                     {!isBack ? (
                       <>
                         <div className="flex items-start justify-between gap-2">
@@ -303,13 +343,21 @@ export function PokopiaStockLab() {
             return (
               <li
                 key={id}
-                className={`flex flex-col items-center justify-center rounded-xl border-2 px-1 py-3 text-center ${
+                className={`flex flex-col items-center justify-center rounded-xl border-2 px-1 py-2 text-center ${
                   caught
                     ? 'border-violet-400 bg-white shadow-sm'
                     : 'border-slate-300/80 bg-slate-200/60 opacity-70 grayscale'
                 }`}
               >
-                <span className="text-lg">{caught ? '✓' : '?'}</span>
+                {caught ? (
+                  <span aria-hidden className="block scale-90">
+                    <CritterSvg kind={critterForStock(id)} className="mx-auto h-10 w-10" />
+                  </span>
+                ) : (
+                  <span className="text-lg" aria-hidden>
+                    ?
+                  </span>
+                )}
                 <span className="mt-1 font-mono text-[10px] font-bold leading-tight text-slate-700">
                   {caught ? s.symbol : '???'}
                 </span>
